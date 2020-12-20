@@ -40,6 +40,7 @@ class Data(models.Model):
     access_key = models.CharField(max_length=1000, blank=True)
     raw_data = models.FileField()
     parsed_data = models.FileField()
+    menu_data = models.FileField()
 
     def __str__(self):
         return self.business_name
@@ -53,12 +54,24 @@ class Data(models.Model):
         bytes_data = bytes(json.dumps(json_data), 'utf-8')
         self.raw_data.save('{}_raw'.format(self.pk), ContentFile(bytes_data))
 
-    def read_parsed_data(self) -> pd.DataFrame:
-        bytes_data = self.parsed_data.read()
+    def read_parsed_data(self, field: str = "parsed_data") -> pd.DataFrame:
+        if field == "parsed_data":
+            bytes_data = self.parsed_data.read()
+        elif field == "menu_data":
+            bytes_data = self.menu_data.read()
+        else:
+            return False
+
         df = pd.read_csv(BytesIO(bytes_data))
         return df
 
-    def save_parsed_data(self, df: pd.DataFrame):
-        file = df.to_csv()
+    def save_parsed_data(self, df: pd.DataFrame, field: str = "parsed_data"):
+        file = df.to_csv(index=False)
         file = bytes(file, 'utf-8')
-        self.parsed_data.save('{}_parsed'.format(self.pk), ContentFile(file))
+
+        if field == "parsed_data":
+            self.parsed_data.save('{}_parsed'.format(self.pk), ContentFile(file))
+        elif field == "menu_data":
+            self.menu_data.save('{}_menu'.format(self.pk), ContentFile(file))
+        else:
+            return False
