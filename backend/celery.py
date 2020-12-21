@@ -13,8 +13,4 @@ app.conf.beat_schedule = {
         "task": "core.tasks.update_user_info",
         "schedule": 60*60*12, ## Once every 12 hours: 60*60*12
     },
-    "sample_task": {
-        "task": "core.tasks.sample_task",
-        "schedule": 10, ## Once every 12 hours: 60*60*12
-    },
 }
