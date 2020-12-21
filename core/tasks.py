@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from core.analytics_utils import get_analytics, get_item_props
 from core.square_api_utils import get_locations, get_orders, parse_orders
 
+global NUMERIC_COLS
+NUMERIC_COLS = ['quantity', 'item_price', 'total_item_price', 'total_order_price']
+
 @shared_task
 def sample_task():
     print("My task has run")
@@ -57,8 +60,13 @@ def update_user_info(
             user.data.save_raw_data(raw_orders)
 
             ## Create new orders_df and drop duplicates
-            orders_df = pd.concat([orders_df, new_orders_df]).drop_duplicates()
+            orders_df = pd.concat([orders_df, new_orders_df])
+            orders_df[NUMERIC_COLS] = orders_df[NUMERIC_COLS].apply(pd.to_numeric)
+            # Timestamp inconsistencies causes problems, and is thus excluded.
+            orders_df.drop_duplicates(subset=['order_id', 'item_name']+NUMERIC_COLS, inplace=True)
+            orders_df.to_csv('maxi_error.csv',index=False)
             user.data.save_parsed_data(orders_df)
+            print(len(orders_df))
 
             YEARS_TO_UPDATE = new_orders_df.timestamp.dt.year.unique()
             print('square data extracted')
@@ -79,4 +87,4 @@ def update_user_info(
                 analytics.data = new_analytics_data
                 analytics.save()
 
-    return True
+    return None
