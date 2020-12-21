@@ -11,6 +11,10 @@ app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     "update_user_info": {
         "task": "core.tasks.update_user_info",
-        "schedule": 30, ## Once every 12 hours: 60*60*12
-    }
+        "schedule": 60*60*12, ## Once every 12 hours: 60*60*12
+    },
+    "sample_task": {
+        "task": "core.tasks.sample_task",
+        "schedule": 10, ## Once every 12 hours: 60*60*12
+    },
 }
