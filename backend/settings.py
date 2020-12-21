@@ -147,9 +147,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'backend/static'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'backend/static'),
+# ]
 
 AWS_ACCESS_KEY_ID = config('S3_ACCESS')
 AWS_SECRET_ACCESS_KEY = config('S3_SECRET')
