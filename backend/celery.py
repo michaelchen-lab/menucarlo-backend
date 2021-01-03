@@ -15,6 +15,6 @@ app.conf.beat_schedule = {
     },
     "sample_task": {
         "task": "core.tasks.sample_task",
-        "schedule": 60, ## Once every 12 hours: 60*60*12
+        "schedule": 60,
     },
 }
