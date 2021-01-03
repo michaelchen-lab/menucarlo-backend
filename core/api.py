@@ -25,3 +25,15 @@ def get_analytics(request):
             {"Error": "The parameters you provided are invalid"},
             status=status.HTTP_400_BAD_REQUEST
         )
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def get_avail_periods(request):
+
+    analytics_periods = [analytics.start_date.year for analytics in request.user.analytics.all()]
+    simulation_periods = []
+
+    return Response({
+        "analytics": analytics_periods,
+        "simulations": simulation_periods
+    })
