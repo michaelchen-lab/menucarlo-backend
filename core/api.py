@@ -37,3 +37,8 @@ def get_avail_periods(request):
         "analytics": analytics_periods,
         "simulations": simulation_periods
     })
+
+@api_view()
+@permission_classes([IsAuthenticated])
+def get_business_name(request):
+    return Response(request.user.data.business_name)
