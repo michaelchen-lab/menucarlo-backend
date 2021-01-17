@@ -18,4 +18,4 @@ MenuCarlo's backend is built using `Django` and `Django Rest Framework`.
 3. **Data Storage.** `PostgreSQL` is our database of choice. Since  historical transactions data needs to be stored and periodically processed, `AWS S3` serves as static file storage. `django-storages` allows us to integrate `S3` into our Django app. 
 4. **Hosting.** The backend app itself, along with `PostgreSQL` and `Redis`, are hosted on Heroku's free tier. 
 
-*Check out the MenuCarlo's frontend [here](https://github.com/michaelchen-lab/menucarlo-frontend)!*
+*Check out MenuCarlo's frontend [here](https://github.com/michaelchen-lab/menucarlo-frontend)!*
